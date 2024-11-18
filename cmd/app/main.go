@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/mhusainh/MIKTI-Task/config"
+	"github.com/mhusainh/MIKTI-Task/internal/builder"
 	"github.com/mhusainh/MIKTI-Task/pkg/database"
 	"github.com/mhusainh/MIKTI-Task/pkg/server"
 )
@@ -20,8 +21,11 @@ func main() {
 	// init  & start database
 	_, err = database.InitDatabase(cfg.MySQLConfig)
 	fmt.Println("Sudah masuk ke database")
+	// RBAC
+	publicRoutes := builder.BuildPublicRoutes()
+	privateRoutes := builder.BuildPrivateRoutes()
 	// init & start server
-	srv := server.NewServer()
+	srv := server.NewServer(publicRoutes, privateRoutes)
 	runServer(srv, cfg.PORT)
 	waitForShutdown(srv)
 }
