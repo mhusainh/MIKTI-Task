@@ -23,10 +23,10 @@ func main() {
 	// init & start server
 	srv := server.NewServer()
 	runServer(srv, cfg.PORT)
-	waitforshutdown(srv)
+	waitForShutdown(srv)
 }
 
-func waitforshutdown(srv *server.Server) {
+func waitForShutdown(srv *server.Server) {
 	quit := make(chan os.Signal, 1)
 
 	signal.Notify(quit, os.Interrupt)
