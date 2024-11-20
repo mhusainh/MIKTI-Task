@@ -20,7 +20,6 @@ func main() {
 	checkError(err)
 	// init  & start database
 	_, err = database.InitDatabase(cfg.MySQLConfig)
-	fmt.Println("Sudah masuk ke database")
 	// RBAC
 	publicRoutes := builder.BuildPublicRoutes()
 	privateRoutes := builder.BuildPrivateRoutes()
