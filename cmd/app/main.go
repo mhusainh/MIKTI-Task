@@ -19,10 +19,10 @@ func main() {
 	cfg, err := config.NewConfig(".env")
 	checkError(err)
 	// init  & start database
-	_, err = database.InitDatabase(cfg.MySQLConfig)
+	db, err := database.InitDatabase(cfg.MySQLConfig)
 	// RBAC
-	publicRoutes := builder.BuildPublicRoutes()
-	privateRoutes := builder.BuildPrivateRoutes()
+	publicRoutes := builder.BuildPublicRoutes(db)
+	privateRoutes := builder.BuildPrivateRoutes(db)
 	// init & start server
 	srv := server.NewServer(publicRoutes, privateRoutes)
 	runServer(srv, cfg.PORT)
