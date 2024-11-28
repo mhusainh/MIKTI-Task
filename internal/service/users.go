@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/mhusainh/MIKTI-Task/internal/entity"
 	"github.com/mhusainh/MIKTI-Task/internal/repository"
@@ -20,5 +21,13 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 }
 
 func (s *userService) Login(ctx context.Context, username string, password string) (*entity.User, error) {
-	return nil, nil
+	user, err := s.userRepository.GetByUsername(ctx, username)
+	if err != nil {
+		return nil, errors.New("username atau password salah")
+	}
+
+	if user.Password != password {		
+		return nil, errors.New("username atau password salah")
+	}
+	return user, nil
 }
