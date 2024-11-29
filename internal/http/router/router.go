@@ -14,6 +14,11 @@ func PublicRoutes(movieHandler handler.MovieHandler) []route.Route {
 			Path:    "/movies",
 			Handler: movieHandler.GetMovies,
 		},
+		{
+			Method:  http.MethodGet,
+			Path:    "/movies/:id",
+			Handler: movieHandler.GetMovie,
+		},
 	}
 }
 

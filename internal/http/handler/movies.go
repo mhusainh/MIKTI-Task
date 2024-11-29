@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/mhusainh/MIKTI-Task/internal/http/dto"
 	"github.com/mhusainh/MIKTI-Task/internal/service"
+	"github.com/mhusainh/MIKTI-Task/pkg/response"
 )
 
 type MovieHandler struct {
@@ -18,8 +20,27 @@ func NewMovieHandler(movieService service.MovieService) MovieHandler {
 func (h *MovieHandler) GetMovies(ctx echo.Context) error {
 	users, err := h.movieService.GetAll(ctx.Request().Context())
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, users)
+	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully showing all movies", users))
+}
+
+func (h *MovieHandler) GetMovie(ctx echo.Context) error {
+	var req dto.GetMovieByIDRequest
+
+	if err :=ctx.Bind(&req); err != nil {
+		return ctx.JSON(http.StatusBadRequest, response.ErrorResponse(http.StatusBadRequest, err.Error()))
+	}
+
+	movie, err := h.movieService.GetByID(ctx.Request().Context(), req.ID)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully showing movie", movie))
+}
+
+func (h *Moviehandler) CreateMovie(ctx echo.Context) error{
+	
 }
