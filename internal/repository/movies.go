@@ -44,9 +44,9 @@ func (r *movieRepository) Create(ctx context.Context, movie *entity.Movie) error
 }
 
 func (r *movieRepository) Update(ctx context.Context, movie *entity.Movie) error {
-	return r.db.WithContext(ctx).Updates(movie).Error
+	return r.db.WithContext(ctx).Updates(&movie).Error
 }
 
 func (r *movieRepository) Delete(ctx context.Context, movie *entity.Movie) error {
-	return r.db.WithContext(ctx).Delete(movie).Error
+	return r.db.WithContext(ctx).Delete(&movie).Error
 }
