@@ -8,7 +8,12 @@ import (
 type Config struct {
 	ENV         string      `env:"ENV" envDefault:"dev"`
 	PORT        string      `env:"PORT" envDefault:"8080"`
+	JWTConfig   JWTConfig   `envPrefix:"JWT_"`
 	MySQLConfig MySQLConfig `envPrefix:"MYSQL_"`
+}
+
+type JWTConfig struct {
+	SecretKey string `env:"SECRET_KEY"`
 }
 
 type MySQLConfig struct {

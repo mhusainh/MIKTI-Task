@@ -21,10 +21,10 @@ func main() {
 	// init  & start database
 	db, err := database.InitDatabase(cfg.MySQLConfig)
 	// RBAC
-	publicRoutes := builder.BuildPublicRoutes(db)
-	privateRoutes := builder.BuildPrivateRoutes(db)
+	publicRoutes := builder.BuildPublicRoutes(cfg, db)
+	privateRoutes := builder.BuildPrivateRoutes(cfg, db)
 	// init & start server
-	srv := server.NewServer(publicRoutes, privateRoutes)
+	srv := server.NewServer(cfg, publicRoutes, privateRoutes)
 	runServer(srv, cfg.PORT)
 	waitForShutdown(srv)
 }
