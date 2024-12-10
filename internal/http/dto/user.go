@@ -33,3 +33,8 @@ type UpdateUserRequest struct {
 type DeleteUserRequest struct {
 	ID int64 `param:"id" validate:"required"`
 }
+
+type ResetPasswordRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}

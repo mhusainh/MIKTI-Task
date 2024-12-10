@@ -20,6 +20,7 @@ type UserService interface {
 	GetByID(ctx context.Context, id int64) (*entity.User, error)
 	Update(ctx context.Context, req dto.UpdateUserRequest) error
 	Delete(ctx context.Context, user *entity.User) error
+	ResetPassword(ctx context.Context, req dto.ResetPasswordRequest) error
 }
 
 type userService struct {
@@ -131,4 +132,18 @@ func (s *userService) Update(ctx context.Context, req dto.UpdateUserRequest) err
 
 func (s *userService) Delete(ctx context.Context, user *entity.User) error {
 	return s.userRepository.Delete(ctx, user)
+}
+
+func (s *userService) ResetPassword(ctx context.Context, req dto.ResetPasswordRequest) error {
+	user, err := s.userRepository.GetByUsername(ctx, req.Username)
+	if err != nil {
+		return errors.New("username tersebut tidak ditemukan")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hashedPassword)
+	return s.userRepository.Update(ctx, user)
 }

@@ -132,3 +132,18 @@ func (h *UserHandler) DeleteUser(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully delete user", nil))
 }
+
+func (h *UserHandler) ResetPassword(ctx echo.Context) error {
+	var req dto.ResetPasswordRequest
+
+	if err := ctx.Bind(&req); err != nil {
+		return ctx.JSON(http.StatusBadRequest, response.ErrorResponse(http.StatusBadRequest, err.Error()))
+	}
+
+	err := h.userService.ResetPassword(ctx.Request().Context(), req)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully reset a password", nil))
+}
