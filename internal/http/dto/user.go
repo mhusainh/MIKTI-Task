@@ -35,6 +35,14 @@ type DeleteUserRequest struct {
 }
 
 type ResetPasswordRequest struct {
-	Username string `json:"username" validate:"required"`
+	Token    string `param:"token" validate:"required"`
 	Password string `json:"password" validate:"required"`
+}
+
+type RequestResetPassword struct {
+	Username string `json:"username" validate:"required"`
+}
+
+type VerifyEmailRequest struct {
+	Token string `param:"token" validate:"required"`
 }

@@ -147,3 +147,33 @@ func (h *UserHandler) ResetPassword(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully reset a password", nil))
 }
+
+func (h *UserHandler) ResetPasswordRequest(ctx echo.Context) error {
+	var req dto.RequestResetPassword
+
+	if err := ctx.Bind(&req); err != nil {
+		return ctx.JSON(http.StatusBadRequest, response.ErrorResponse(http.StatusBadRequest, err.Error()))
+	}
+
+	err := h.userService.RequestResetPassword(ctx.Request().Context(), req.Username)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully request reset password", nil))
+}
+
+func (h *UserHandler) VerifyEmail(ctx echo.Context) error {
+	var req dto.VerifyEmailRequest
+
+	if err := ctx.Bind(&req); err != nil {
+		return ctx.JSON(http.StatusBadRequest, response.ErrorResponse(http.StatusBadRequest, err.Error()))
+	}
+
+	err := h.userService.VerifyEmail(ctx.Request().Context(), req)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, response.SuccessResponse("successfully verify email", nil))
+}

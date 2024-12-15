@@ -17,7 +17,7 @@ func BuildPublicRoutes(cfg *config.Config, db *gorm.DB) []route.Route {
 	// end
 
 	// service
-	userService := service.NewUserService(userRepository)
+	userService := service.NewUserService(cfg, userRepository)
 	tokenService := service.NewTokenService(cfg.JWTConfig.SecretKey)
 	movieService := service.NewMovieService(movieRepository)
 	//end
@@ -34,7 +34,7 @@ func BuildPrivateRoutes(cfg *config.Config, db *gorm.DB) []route.Route {
 	userRepository := repository.NewUserRepository(db)
 	movieRepository := repository.NewMovieRepository(db)
 
-	userService := service.NewUserService(userRepository)
+	userService := service.NewUserService(cfg,userRepository)
 	movieService := service.NewMovieService(movieRepository)
 	tokenService := service.NewTokenService(cfg.JWTConfig.SecretKey)
 

@@ -35,7 +35,7 @@ func PublicRoutes(
 		},
 		{
 			Method:  http.MethodPost,
-			Path:    "/reset-password",
+			Path:    "/reset-password/:token",
 			Handler: userHandler.ResetPassword,
 		},
 		{

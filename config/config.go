@@ -10,6 +10,14 @@ type Config struct {
 	PORT        string      `env:"PORT" envDefault:"8080"`
 	JWTConfig   JWTConfig   `envPrefix:"JWT_"`
 	MySQLConfig MySQLConfig `envPrefix:"MYSQL_"`
+	SMTPConfig  SMTPConfig  `envPrefix:"SMTP_"`
+}
+
+type SMTPConfig struct {
+	Host     string `env:"HOST" envDefault:"localhost"`
+	Port     int  `env:"PORT" envDefault:"587"`
+	Username string `env:"USERNAME"`
+	Password string `env:"PASSWORD"`
 }
 
 type JWTConfig struct {
